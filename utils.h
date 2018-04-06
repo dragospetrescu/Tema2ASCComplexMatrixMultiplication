@@ -9,18 +9,19 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-typedef double* (*Solver)(int, double *);
+typedef double *(*Solver)(int, double *);
 
-#define get_rand_double(limit) ((((double)rand()) / RAND_MAX) * (2 * limit) - limit)
+#define get_rand_double(limit) ((((int)rand()) % 10) * (2 * limit) - limit)
 
-struct test {
+struct test
+{
 	int seed;
 	int N;
 	// path to the file where the result matrix will be written
 	char output_save_file[100];
 };
 
-double* my_solver(int, double *);
+double *my_solver(int, double *);
 
 int run_test(struct test, Solver, float *);
 

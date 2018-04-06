@@ -2,3 +2,9 @@
 */.xml
 cmake-build-debug/
 CMakeLists.txt
+tema2_blas
+tema2_neopt
+tema2_opt_f
+tema2_opt_m
+*.o
+out*

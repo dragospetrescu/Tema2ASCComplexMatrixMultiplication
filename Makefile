@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Werror -O0
+CFLAGS=-Wall -Werror -O0 -g
 OTHER_C_FLAGS=-Wall -Werror 
 LIBDIRS=
 LIBS=
