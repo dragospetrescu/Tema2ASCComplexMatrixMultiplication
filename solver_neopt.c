@@ -15,9 +15,9 @@ void print_my2_matrix(double *aux, int N)
 
 	for (i = 0; i < N; ++i) {
 		for (j = 0; j < N; ++j) {
-			printf("%f+%fi ", aux[2 * (i * N + j)], aux[2 * (i * N + j) + 1]);
+			printf("%f+%f*i, ", aux[2 * (i * N + j)], aux[2 * (i * N + j) + 1]);
 		}
-		printf("\n");
+		printf(";\n");
 	}
 }
 
@@ -26,7 +26,7 @@ double *my_solver(int N, double *A)
 	int l, c, i;
 	double *result = malloc(sizeof(double) * 2 * N * N);
 	print_my2_matrix(A, N);
-
+	printf("\n");
 	for (l = 0; l < N; ++l) {
 		for (c = l; c < N; ++c) {
 			result[2 * (l * N + c)] = 0;
@@ -36,20 +36,15 @@ double *my_solver(int N, double *A)
 
 			for (i = 0; i < N; ++i) {
 				result[2 * (l * N + c)] +=
-//					A[2 * (l * N + i)] * A[2 * c + 2 * N * i]
-						- A[2 * (l * N + i) + 1] * A[2 * c + 2 * N * i + 1];
-				fprintf(stdout,
-						"R[%d] +=  - %d * %d\n",
-						2 * (l * N + c),
-						2 * (l * N + i) ,
-						 c +  N * i);
+					A[2 * (l * N + i)] * A[2 * (c * N + i)]
+						- A[2 * (l * N + i) + 1] * A[2 * (c * N + i) + 1];
 
-//				result[2 * (l * N + c) + 1] +=
-//					A[2 * (l * N + i)] * A[2 * (c * N + i) + 1]
-//						+ A[2 * (c * N + i)] * A[2 * (l * N + i) + 1];
+				result[2 * (l * N + c) + 1] +=
+					A[2 * (l * N + i)] * A[2 * (c * N + i) + 1]
+						+ A[2 * (c * N + i)] * A[2 * (l * N + i) + 1];
 			}
-//			result[2 * (c * N + l)] = result[2 * (l * N + c)];
-//			result[2 * (c * N + l) + 1] = result[2 * (l * N + c) + 1];
+			result[2 * (c * N + l)] = result[2 * (l * N + c)];
+			result[2 * (c * N + l) + 1] = result[2 * (l * N + c) + 1];
 		}
 
 	}
