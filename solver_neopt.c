@@ -25,8 +25,6 @@ double *my_solver(int N, double *A)
 {
 	int l, c, i;
 	double *result = malloc(sizeof(double) * 2 * N * N);
-	print_my2_matrix(A, N);
-	printf("\n");
 	for (l = 0; l < N; ++l) {
 		for (c = l; c < N; ++c) {
 			result[2 * (l * N + c)] = 0;
@@ -48,7 +46,6 @@ double *my_solver(int N, double *A)
 		}
 
 	}
-	print_my2_matrix(result, N);
 
 	return result;
 }
