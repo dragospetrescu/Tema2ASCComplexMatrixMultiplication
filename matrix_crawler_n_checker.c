@@ -56,10 +56,10 @@ int main(int argc, char *argv[])
 	out = mmap(0, statbuf_out.st_size, PROT_READ, MAP_SHARED, fdout, 0);
 	DIE(out == MAP_FAILED, "mmap out");
 
-	fprintf(stderr, "%d", (int)statbuf_ref.st_size);
+//	fprintf(stderr, "%d", (int)statbuf_ref.st_size);
 	int N = (int)sqrt((int)statbuf_ref.st_size / 16.0);
 
-	DIE(N != (int)sqrt((int)statbuf_out.st_size / 16.0), "Fisiere neegale ca marime");
+	DIE(statbuf_ref.st_size != statbuf_out.st_size , "Fisiere neegale ca marime");
 
 	int i, j;
 	for (i = 0; i < N; ++i) {
@@ -67,16 +67,19 @@ int main(int argc, char *argv[])
 
 			if(fabs(ref[2 * (i * N + j)] - out[2 * (i * N + j)]) > 0.001) {
 				fprintf (stderr, "DIFERENTA REAL DE %lf la linia %d si coloana %d. Expected %lf found %lf\n", ref[2 * (i * N + j)] - out[2 * (i * N + j)], i, j, ref[2 * (i * N + j)], out[2 * (i * N + j)]);
+				printf("Failed\n");
+				exit (-1);
 			}
 
 			if(fabs(ref[2 * (i * N + j) + 1] - out[2 * (i * N + j) + 1]) > 0.001) {
 				fprintf (stderr, "DIFERENTA IMAG DE %lf la linia %d si coloana %d. Expected %lf found %lf\n", ref[2 * (i * N + j) + 1] - out[2 * (i * N + j) + 1], i, j, ref[2 * (i * N + j) + 1], out[2 * (i * N + j) + 1]);
-//				exit(-1);
+				printf("Failed\n");
+				exit (-1);
 			}
 
 		}
 	}
-
+	printf("Success\n");
 
 	/* TODO - clean up */
 	rc = munmap(ref, statbuf_ref.st_size);
