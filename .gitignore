@@ -9,3 +9,4 @@ tema2_opt_m
 *.o
 out*
 octave-workspace
+results/local1
