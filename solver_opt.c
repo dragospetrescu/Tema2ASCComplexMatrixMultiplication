@@ -25,7 +25,7 @@ void print_my2_matrix(double *aux, int N)
 double *my_solver(int N, double *A)
 {
 	int l, c, i;
-	double *result = malloc(sizeof(double) * 2 * N * N);
+	double *result = calloc(2 * N * N, sizeof(double));
 
 
 	for (l = 0; l < N; ++l) {
@@ -52,8 +52,6 @@ double *my_solver(int N, double *A)
 			}
 			result[2 * (l * N + c)] = real_sum;
 			result[2 * (l * N + c) + 1] = imag_sum;
-			result[2 * (c * N + l)] = real_sum;
-			result[2 * (c * N + l) + 1] = imag_sum;
 		}
 
 	}
