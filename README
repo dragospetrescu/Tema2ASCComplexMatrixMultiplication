@@ -8,7 +8,29 @@ I. Descrierea implementarii
 1. Blas
 - am adaugat in proiect header-ul cblas.h de pe site-ul oficial.
 - am linkat biblioteca la execuabil din Makefile
+- functia cblas_zsyrk calculeaza
+    C := alpha*A*A**T + beta*C,
+            or
+    C := alpha*A**T*A + beta*C,
 
+    Eu am utilizat-o in urmatorul caz:
+    C := (1 + 0i) * A * A ** T + (0 + 0i) * C
+
+- pentru a folosi astfel functia, am utilizat urmatorii parametrii parametrii:
+    -> Order = CblasRowMajor deoarece matricea este liniarizata ca rand dupa
+        rand
+    -> UPLO = CblasUpper deoarece vrem ca rezultatul sa fie o matrice superior
+        triunghiluata
+    -> TRANS = CblasNoTrans deoarece folosim C := alpha*A*A**T
+    -> n = N marimea matricii C, ce se aduna la rezultatul inmultirii
+    -> k = N numarul de coloane al matricii A
+    -> alpha = 1 + 0i deoarece ne intereseaza doar rezultatul inmultirii dintre
+        A si transpusa lui.
+    -> A matricea initiala
+    -> lda = N numarul de linii al matricii A
+    -> beta = 0 + 0i deoarece nu ne intereseaza a doua parte a ecuatiei
+    -> result aici vom obtine rezultatul
+    -> ldc = N numarul de linii a lui C
 
 2. Solver Neop
 - am obserat ca voi inmulti tot timpul linie cu linie, datorita transpunerii
@@ -18,7 +40,8 @@ I. Descrierea implementarii
 - inmultirea se face clasic, utilizand 3 for-uri
 - datorita simetriei, merg doar deasupra diagonalei principale
 - inmultirea se realizeaza clasic dupa formula:
-    (a + ib) * (c + id) = (a*c - b*d) + (a*d + b * c)i
+    (a + ib) * (c + id) = (a*c - b*d) + (a*d + b*c)i
+
 
 3. Solver Opt C
 - initial am copiat codul de la Solver Neop apoi am aplicat cateva metode de
@@ -38,6 +61,7 @@ I. Descrierea implementarii
         pointerilor (aceste initializari se intampla mult mai rar, neffind atat
         de adanc asezare in structura de for-uri).
 
+
 4. Solver Opt F
 - am utilizat codul de la Solver Neop si am adaugat flag-uri
     -> gcc
@@ -55,6 +79,9 @@ I. Descrierea implementarii
 
 
 II. Analiza performantei
+
+In folderul analysis se gasesc analizele celor 8 executabile.
+
 A. gcc - blas vs neopt vs opt_m vs opt_f
 
     blas CPU Time :   9.360s
@@ -71,7 +98,7 @@ Observam ca varianta blas este de:
   2 ori mai inceata decat varianta opt_f
   2 ori mai rapida decat varianta opt_neopt
 
-Analize comparative, doua cate doua se gasesc in folderul analize/ sub forma
+Analize comparative, doua cate doua se gasesc in folderul pics sub forma
 de screenshot-uri
 
 
@@ -111,3 +138,18 @@ C. gcc vs icc
 
 Concluzie: icc are flag-uri mult mai bine optimizate dar gcc este mai rapid fara
 flag-uri.
+
+
+III. Grafice relevante
+Se regasesc in folderul graphs
+
+
+IV. Checker
+Am creat un checker in bash si C. acesta poate fi apelat folosind comanda
+./checker.sh. Este nevoie ca in folderul unde se obtin rezultatele sa existe
+un folder numit ref/ ce sa contina rezultatele.
+
+
+V. Rezultate
+Am rulat pe coada ibm-dp.q si am obtinut timpi cu mult sub 4 minute.
+La nici o rulare nu am avut niciodata probleme cu corectitudinea rezultatelor.
