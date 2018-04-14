@@ -5,28 +5,10 @@
  */
 #include "utils.h"
 
-/*
- * Add your optimized implementation here
- */
-
-void print_my2_matrix(double *aux, int N)
-{
-	int i, j;
-
-	for (i = 0; i < N; ++i) {
-		for (j = 0; j < N; ++j) {
-			printf("%f+%fi ", aux[2 * (i * N + j)], aux[2 * (i * N + j) + 1]);
-		}
-		printf("\n");
-	}
-}
-
-
 double *my_solver(int N, double *A)
 {
 	int l, c, i;
 	double *result = calloc(2 * N * N, sizeof(double));
-
 
 	for (l = 0; l < N; ++l) {
 
