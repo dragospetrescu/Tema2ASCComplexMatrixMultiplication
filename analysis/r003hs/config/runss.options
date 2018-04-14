@@ -1,0 +1,15 @@
+-r
+/export/home/acs/stud/d/dragos.petrescu/intel/amplxe/projects/Tema2ASC/r003hs
+--stack-stitching
+--data-limit-mb=500
+--follow-child
+--itt-config=frame
+--stackwalk=offline
+--mrte-mode=auto
+--mrte-type=java
+--type=cpu:counters:nostack
+--type=cpu:stack
+--interval=10
+--
+/export/home/acs/stud/d/dragos.petrescu/ASC/Tema2/tema2_opt_f
+input
