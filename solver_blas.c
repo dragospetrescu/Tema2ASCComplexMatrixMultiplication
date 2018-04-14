@@ -5,21 +5,29 @@
  */
 #include "utils.h"
 #include "cblas.h"
-/* 
- * Add your BLAS implementation here
- */
-double* my_solver(int N, double *A) {
-	const enum CBLAS_ORDER Order=CblasRowMajor;
+
+double *my_solver(int N, double *A)
+{
+	const enum CBLAS_ORDER Order = CblasRowMajor;
 	const enum CBLAS_UPLO Uplo = CblasUpper;
 	const enum CBLAS_TRANSPOSE Trans = CblasNoTrans;
 
-	double alpha = 1;
-	double beta = 0;
+	double *alpha = malloc(2 * sizeof(double));
+	alpha[0] = 1.0;
+	alpha[1] = 0.0;
 
-	int s = N;
+	double *beta = malloc(2 * sizeof(double));
+	beta[0] = 0.0;
+	beta[1] = 0.0;
+
+	int n = N;
+	int k = N;
 	double *result = calloc(2 * N * N, sizeof(double));
 
-	cblas_zsyrk(Order, Uplo, Trans, s, s, &alpha, A, s, &beta, result, N);
+	int lda = N;
+	int ldc = N;
+
+	cblas_zsyrk(Order, Uplo, Trans, n, k, alpha, A, lda, beta, result, ldc);
 
 	return result;
 }
